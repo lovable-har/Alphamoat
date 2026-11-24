@@ -10,16 +10,16 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
       - uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
-          java-version: '17'
+          java-version: '21'
       - name: Wrap with Capacitor & Compile APK
         run: |
           mkdir -p www && cp index.html www/
           npm init -y
-          npm install @capacitor/core @capacitor/cli @capacitor/android
+          npm install @capacitor/core@latest @capacitor/cli@latest @capacitor/android@latest
           npx cap init AlphaMoat com.alphamoat.screener --web-dir=www
           npx cap add android && npx cap sync
           cd android && chmod +x gradlew && ./gradlew assembleDebug
