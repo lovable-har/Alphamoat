@@ -15,22 +15,19 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '21'
-      - name: Wrap with Capacitor & Compile APK
+      - name: Initialize Capacitor Android Project
         run: |
-          mkdir -p www && cp index.html www/
           npm init -y
           npm install @capacitor/core@latest @capacitor/cli@latest @capacitor/android@latest @capacitor/browser@latest @capacitor/app@latest
+          mkdir -p www && cp index.html www/index.html
           cat << 'EOF' > capacitor.config.json
           {
             "appId": "com.alphamoat.screener",
             "appName": "AlphaMoat",
             "webDir": "www",
-            "server": {
-              "androidScheme": "https"
-            },
-            "android": {
-              "allowMixedContent": true
-            }
+            "server": { "androidScheme": "https" },
+            "plugins": { "CapacitorHttp": { "enabled": true } },
+            "android": { "allowMixedContent": true }
           }
           EOF
           npx cap add android && npx cap sync
